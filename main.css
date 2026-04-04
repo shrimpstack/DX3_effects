@@ -19,7 +19,6 @@ body {
   margin-bottom: 8px;
 }
 
-
 #列表區 {
   height: 100%;
   overflow: auto;
@@ -43,6 +42,10 @@ body {
   border: solid #aaa;
   border-width: 0 1px 1px 0;
   padding: 2px 4px;
+}
+.資料 .名稱 {
+  text-align: center;
+  flex-wrap: wrap;
 }
 .資料 .日文 {
   font-size: 12px;
