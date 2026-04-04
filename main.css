@@ -1,0 +1,54 @@
+body {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+#症候群, #參照 {
+  display: flex;
+  gap: 2px 8px;
+  padding: 2px 8px;
+  align-items: center;
+  line-height: 22px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin-bottom: 8px;
+}
+
+
+#列表區 {
+  height: 100%;
+  overflow: auto;
+}
+.資料 {
+  display: grid;
+  grid-template-columns: 160px 240px 60px 160px 100px 60px 100px 60px 60px 60px 60px 100px;
+  grid-template-rows: auto auto;
+  border: solid #aaa;
+  border-width: 1px 0 0 1px;
+  width: max-content;
+  background: #fafafa;
+}
+.資料:nth-child(even) {
+  background: #e8effb;
+}
+.資料 > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid #aaa;
+  border-width: 0 1px 1px 0;
+  padding: 2px 4px;
+}
+.資料 .效果 {
+  grid-column: 1 / -2;
+  display: block;
+}
+.資料 .參照 {
+  grid-column: -2;
+  grid-row: 1 / -1;
+}
