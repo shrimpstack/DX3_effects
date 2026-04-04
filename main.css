@@ -8,7 +8,7 @@ body {
   box-sizing: border-box;
 }
 
-#症候群, #參照 {
+.搜尋選項列 {
   display: flex;
   gap: 2px 8px;
   padding: 2px 8px;
@@ -25,12 +25,35 @@ body {
 }
 .資料 {
   display: grid;
-  grid-template-columns: 160px 240px 60px 160px 100px 60px 100px 60px 60px 60px 60px 100px;
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(14, 60px) 100px;
+  grid-template-areas:
+    "症候群 症候群 名稱 名稱 名稱 名稱 異能類型 異能類型 最大等級 時機 時機 時機 技能 技能 參照"
+    "難易度 難易度 對象 對象 射程 射程 侵蝕值 侵蝕值 限制 限制 限制 限制 次數 次數 參照"
+    "效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 參照";
   border: solid #aaa;
   border-width: 1px 0 0 1px;
   width: max-content;
   background: #fafafa;
+}
+.資料 .症候群 { grid-area: 症候群; }
+.資料 .異能類型 { grid-area: 異能類型; }
+.資料 .名稱 { grid-area: 名稱; }
+.資料 .最大等級 { grid-area: 最大等級; }
+.資料 .時機 { grid-area: 時機; }
+.資料 .技能 { grid-area: 技能; }
+.資料 .難易度 { grid-area: 難易度; }
+.資料 .對象 { grid-area: 對象; }
+.資料 .射程 { grid-area: 射程; }
+.資料 .侵蝕值 { grid-area: 侵蝕值; }
+.資料 .限制 { grid-area: 限制; }
+.資料 .次數 { grid-area: 次數; }
+.資料 .效果 { grid-area: 效果; }
+.資料 .參照 { grid-area: 參照; }
+.資料.欄位名稱 {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #cadafe;
 }
 .資料:nth-child(even) {
   background: #e8effb;
@@ -52,10 +75,5 @@ body {
   opacity: .4;
 }
 .資料 .效果 {
-  grid-column: 1 / -2;
   display: block;
-}
-.資料 .參照 {
-  grid-column: -2;
-  grid-row: 1 / -1;
 }
