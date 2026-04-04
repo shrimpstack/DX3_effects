@@ -44,6 +44,10 @@ body {
   border-width: 0 1px 1px 0;
   padding: 2px 4px;
 }
+.資料 .日文 {
+  font-size: 12px;
+  opacity: .4;
+}
 .資料 .效果 {
   grid-column: 1 / -2;
   display: block;
