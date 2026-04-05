@@ -126,9 +126,10 @@ function 資料處理(sheet_name, row) {
   show_data.中文 = 名稱.split("(")[0];
   show_data.日文 = row.日文 || 名稱.replace(/^[^\(]*|\(|\)/g, "");
 
-  /* 限制 */
+  /* 限制、次數 */
   if(typeof row.限制 == "number") row.限制 = row.限制 * 100 + "%";
   row.限制 = row.限制.replace(/\n/g, "");
+  row.次數 = row.次數.replace(/\n/g, "、");
 
   /* 資訊列 */
   show_data.資訊列 = [];
