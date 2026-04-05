@@ -6,6 +6,7 @@ body {
   overflow: hidden;
   padding: 8px;
   box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 .搜尋選項列 {
@@ -23,33 +24,28 @@ body {
   height: 100%;
   overflow: auto;
 }
-.資料 {
+.資料, .欄位名稱 {
   display: grid;
-  grid-template-columns: repeat(14, 60px) 100px;
+  grid-template-columns: 140px 240px 60px 860px 100px;
   grid-template-areas:
-    "症候群 症候群 名稱 名稱 名稱 名稱 異能類型 異能類型 最大等級 時機 時機 時機 技能 技能 參照"
-    "難易度 難易度 對象 對象 射程 射程 侵蝕值 侵蝕值 限制 限制 限制 限制 次數 次數 參照"
-    "效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 效果 參照";
+    "症候群 名稱 最大等級 資訊列 參照"
+    "效果 效果 效果 效果 參照";
   border: solid #aaa;
   border-width: 1px 0 0 1px;
   width: max-content;
   background: #fafafa;
 }
-.資料 .症候群 { grid-area: 症候群; }
-.資料 .異能類型 { grid-area: 異能類型; }
-.資料 .名稱 { grid-area: 名稱; }
-.資料 .最大等級 { grid-area: 最大等級; }
-.資料 .時機 { grid-area: 時機; }
-.資料 .技能 { grid-area: 技能; }
-.資料 .難易度 { grid-area: 難易度; }
-.資料 .對象 { grid-area: 對象; }
-.資料 .射程 { grid-area: 射程; }
-.資料 .侵蝕值 { grid-area: 侵蝕值; }
-.資料 .限制 { grid-area: 限制; }
-.資料 .次數 { grid-area: 次數; }
-.資料 .效果 { grid-area: 效果; }
-.資料 .參照 { grid-area: 參照; }
-.資料.欄位名稱 {
+.症候群 { grid-area: 症候群; }
+.名稱 { grid-area: 名稱; }
+.最大等級 { grid-area: 最大等級; }
+.資訊列 { grid-area: 資訊列; }
+.效果 { grid-area: 效果; }
+.參照 { grid-area: 參照; }
+.症候群, .名稱 {
+  font-weight: bold;
+  color: #062a7d;
+}
+.欄位名稱 {
   position: sticky;
   top: 0;
   z-index: 1;
@@ -58,7 +54,7 @@ body {
 .資料:nth-child(even) {
   background: #e8effb;
 }
-.資料 > div {
+.資料 > div, .欄位名稱 > div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,14 +62,29 @@ body {
   border-width: 0 1px 1px 0;
   padding: 2px 4px;
 }
-.資料 .名稱 {
+.資料 .名稱, .資料 .症候群 {
   text-align: center;
   flex-wrap: wrap;
 }
-.資料 .日文 {
+.資料 .副類別, .資料 .日文 {
   font-size: 12px;
   opacity: .4;
 }
 .資料 .效果 {
   display: block;
+}
+.資料 .資訊列 {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 4px;
+}
+.資料 .資訊列 span {
+  background: #ffffff;
+  color: #1c2238;
+  border-radius: 4px;
+  padding: 0 4px;
+  line-height: 21px;
+  font-size: 14px;
 }

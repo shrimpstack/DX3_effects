@@ -50,54 +50,83 @@ async function 生成顯示() {
   });
 }
 function 產生第一列() {
-  new_el_to_el(列表區, "div.資料.欄位名稱", [
+  new_el_to_el(列表區, "div.欄位名稱", [
     new_el("div.症候群", "症候群"),
     new_el("div.名稱", "名稱"),
-    new_el("div.異能類型", "異能類型"),
     new_el("div.最大等級", "MaxLv"),
-    new_el("div.時機", "時機"),
-    new_el("div.技能", "技能"),
-    new_el("div.難易度", "難易度"),
-    new_el("div.對象", "對象"),
-    new_el("div.射程", "射程"),
-    new_el("div.侵蝕值", "侵蝕值"),
-    new_el("div.限制", "限制"),
-    new_el("div.次數", "次數"),
+    new_el("div.資訊列", "資訊列"),
     new_el("div.參照", "參照"),
   ]);
 }
 function show_row(sheet_name, row) {
-  症候群set.add(sheet_name);
-  類型set.add(row.異能類型);
-  row.症候群 = sheet_name;
-  let 名稱 = row.名稱.replace(/\n/, "").replace(/（/g, "(").replace(/）/g, ")");
-  if(typeof row.限制 == "number") row.限制 = row.限制 * 100 + "%";
+  let {show_data, el_data} = 資料處理(sheet_name, row);
+
+  /* 加入搜尋選項 */
+  症候群set.add(el_data.症候群);
+  類型set.add(el_data.異能類型);
+  el_data.參照arr.forEach(參照名 => 參照set.add(參照名));
+
+  /* 顯示el */
   let row_el = new_el_to_el(列表區, "div.資料", [
-    new_el("div.症候群", sheet_name),
-    new_el("div.名稱", [
-      new_el("span.中文", 名稱.split("\(")[0]),
-      new_el("span.日文", row.日文 || 名稱.replace(/^[^\(]*/, "")),
+    new_el("div.症候群", [
+      new_el("span.主類別", show_data.主類別),
+      new_el("span.副類別", show_data.副類別),
     ]),
-    new_el("div.異能類型", row.異能類型),
-    new_el("div.最大等級", row.最大等級),
-    new_el("div.時機", row.時機),
-    new_el("div.技能", row.技能),
-    new_el("div.難易度", row.難易度),
-    new_el("div.對象", row.對象),
-    new_el("div.射程", row.射程),
-    new_el("div.侵蝕值", row.侵蝕值),
-    new_el("div.限制", row.限制.replace(/\n/g, "")),
-    new_el("div.次數", row.次數),
-    new_el("div.效果", row.效果),
-    new_el("div.參照", row.參照),
+    new_el("div.名稱", [
+      new_el("span.中文", show_data.中文),
+      new_el("span.日文", show_data.日文),
+    ]),
+    new_el("div.最大等級", show_data.最大等級),
+    new_el("div.資訊列", show_data.資訊列.map(str => new_el("span", str))),
+    new_el("div.效果", show_data.效果),
+    new_el("div.參照", show_data.參照),
   ]);
-  row.參照arr = [];
+
+  /* 自帶資料 */
+  row_el.data = el_data;
+}
+function 資料處理(sheet_name, row) {
+  let show_data = {};
+  let el_data = {};
+
+  /* 搜尋用 */
+  el_data.症候群 = sheet_name;
+  el_data.異能類型 = row.異能類型;
+  el_data.參照arr = [];
   row.參照.split("\n").forEach(str => {
     let 參照名 = str.split("P")[0];
-    參照set.add(參照名);
-    row.參照arr.push(參照名);
+    el_data.參照arr.push(參照名);
   });
-  row_el.data = row;
+
+  /* 症候群 */
+  show_data.主類別 = sheet_name;
+  if(!["一般", "自動取得", "D露易絲"].includes(row.異能類型)) {
+    show_data.副類別 = `(${row.異能類型})`;
+  }
+  else show_data.副類別 = "";
+
+  /* 名稱 */
+  let 名稱 = row.名稱.replace(/\n/, "").replace(/（/g, "(").replace(/）/g, ")");
+  show_data.中文 = 名稱.split("(")[0];
+  show_data.日文 = row.日文 || 名稱.replace(/^[^\(]*/, "");
+
+  /* 限制 */
+  if(typeof row.限制 == "number") row.限制 = row.限制 * 100 + "%";
+  row.限制 = row.限制.replace(/\n/g, "");
+
+  /* 資訊列 */
+  show_data.資訊列 = [];
+  ["時機", "技能", "難易度", "對象", "射程", "侵蝕值", "限制", "次數"].forEach(key => {
+    if(!row[key] || row[key] == "－") return;
+    show_data.資訊列.push(`${key}：${row[key]}`);
+  });
+
+  /* 其他 */
+  show_data.最大等級 = row.最大等級;
+  show_data.效果 = row.效果;
+  show_data.參照 = row.參照;
+
+  return {show_data, el_data};
 }
 
 function post(action, data = {}) {
