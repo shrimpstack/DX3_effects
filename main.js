@@ -68,7 +68,7 @@ function 產生第一列() {
   ]);
 }
 function show_row(sheet_name, row) {
-  let {show_data, el_data} = 資料處理(sheet_name, row);
+  let {show_data, el_data, copy_text_cnt} = 資料處理(sheet_name, row);
 
   /* 加入搜尋選項 */
   症候群set.add(el_data.症候群);
@@ -91,6 +91,9 @@ function show_row(sheet_name, row) {
     new_el("div.效果", show_data.效果),
     new_el("div.參照", show_data.參照),
   ]);
+
+  /* 複製資料 */
+  row_el.addEventListener("click", () => copy_text(copy_text_cnt));
 
   /* 自帶資料 */
   row_el.data = el_data;
@@ -133,9 +136,11 @@ function 資料處理(sheet_name, row) {
 
   /* 資訊列 */
   show_data.資訊列 = [];
+  let copy_資訊列 = [];
   let 需要參照效果 = false;
   ["時機", "技能", "難易度", "對象", "射程", "侵蝕值", "限制", "次數"].forEach(key => {
     if(!row[key] || row[key] == "－") return;
+    copy_資訊列.push(`[${key}：${row[key]}]`);
     if(row[key] != "參照效果") show_data.資訊列.push(`${key}：${row[key]}`);
     else 需要參照效果 = true;
   });
@@ -146,7 +151,16 @@ function 資料處理(sheet_name, row) {
   show_data.效果 = row.效果;
   show_data.參照 = row.參照;
 
-  return {show_data, el_data};
+  /* 複製用 */
+  let copy_類別 = show_data.主類別;
+  if(show_data.副類別) copy_類別 += `(${show_data.副類別})`;
+  let copy_text_cnt = [
+    `${copy_類別}《${show_data.中文}》MaxLv:${show_data.最大等級}`,
+    `${copy_資訊列.join(" ")}`,
+    show_data.效果,
+  ].join("\n");
+
+  return {show_data, el_data, copy_text_cnt};
 }
 
 function post(action, data = {}) {
@@ -172,4 +186,14 @@ function post(action, data = {}) {
     let content = JSON.stringify(data);
     xhr.send("content=" + encodeURI(content.replace(/\&/g, "＆")));
   });
+}
+
+const copy_textarea = new_el("textarea", {
+  style: `position: fixed; bottom: 0; right: 0; opacity: 0; pointer-events: none;`
+});
+window.addEventListener("load", () => document.body.append(copy_textarea));
+function copy_text(text) {
+  copy_textarea.value = text;
+  copy_textarea.select();
+  document.execCommand("copy");
 }
