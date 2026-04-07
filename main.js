@@ -155,7 +155,7 @@ function 資料處理(sheet_name, row) {
   let copy_類別 = show_data.主類別;
   if(show_data.副類別) copy_類別 += `(${show_data.副類別})`;
   let copy_text_cnt = [
-    `${copy_類別}《${show_data.中文}》MaxLv:${show_data.最大等級}`,
+    `${copy_類別} 《${show_data.中文}》MaxLv:${show_data.最大等級}`,
     `${copy_資訊列.join(" ")}`,
     show_data.效果,
   ].join("\n");
