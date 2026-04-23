@@ -60,6 +60,14 @@ function 重新列出選擇的技能() {
     ]),
   ]);
   目前選擇技能.forEach(技能json => 生成一個已選擇的技能el(技能json));
+  經驗重新顯示();
+}
+function 經驗重新顯示() {
+  let 經驗值 = 0;
+  目前選擇技能.forEach(技能json => {
+    經驗值 += 技能json.等級 * 5 + 10 + 技能json.經驗修正;
+  });
+  目前經驗值.value = 經驗值;
 }
 function 生成一個已選擇的技能el(技能json) {
   let 資料el = new_el_to_el(選擇區, "tbody.資料", [
@@ -89,11 +97,13 @@ function 生成一個已選擇的技能el(技能json) {
   find_on(資料el, ".等級 input", "input", ({target}) => {
     target.value = Math.max(Math.floor(+target.value || 0), 0);
     技能json.等級 = target.value;
+    經驗重新顯示();
     if(target.value == 0) 重新列出選擇的技能();
   });
   find_on(資料el, ".經驗修正 input", "input", ({target}) => {
     target.value = Math.round(+target.value || 0);
     技能json.經驗修正 = target.value;
+    經驗重新顯示();
   });
   find_on(資料el, ".內文 textarea", "input", ({target}) => {
     技能json.註記 = target.value.replace(/\r/g, "").replace(/\n/g, " ");
