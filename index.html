@@ -14,8 +14,18 @@
       <div id="異能類型" class="搜尋選項列"></div>
       <div id="參照" class="搜尋選項列"></div>
       <div id="時機" class="搜尋選項列"></div>
+      <div class="搜尋選項列">
+        <label><input id="效果顯示" type="checkbox" checked /><span>效果顯示</span></label>
+        <label><input id="日文顯示" type="checkbox" checked /><span>日文顯示</span></label>
+      </div>
     </div>
     <div id="列表區">讀取中...</div>
+    <div id="檔案控制區">
+      <button id="讀取檔案" onclick="從檔案讀取技能()">讀取檔案</button>
+      <button id="儲存檔案" onclick="從技能存到檔案()">儲存檔案</button><br/>
+      <label>角色：</label><output id="目前角色">--</output><br/>
+      <label>經驗：</label><output id="目前經驗值">0</output>
     </div>
+    <table id="選擇區"></table>
   </body>
 </html>

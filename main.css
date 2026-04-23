@@ -1,6 +1,11 @@
 body {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 900px 1fr;
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    "搜尋區 檔案控制區"
+    "搜尋區 選擇區"
+    "列表區 選擇區";
   margin: 0;
   height: 100vh;
   overflow: hidden;
@@ -8,6 +13,8 @@ body {
   box-sizing: border-box;
   font-family: sans-serif;
 }
+#搜尋區 { grid-area: 搜尋區; }
+#檔案控制區 { grid-area: 檔案控制區; }
 
 .搜尋選項列 {
   display: flex;
@@ -16,45 +23,43 @@ body {
   align-items: center;
   line-height: 22px;
   flex-wrap: wrap;
-  max-width: 900px;
   margin-bottom: 8px;
 }
 
 #列表區 {
+  grid-area: 列表區;
   height: 100%;
   overflow: auto;
 }
-.資料, .欄位名稱 {
+#列表區 .資料, #列表區 .欄位名稱 {
   display: grid;
-  grid-template-columns: 140px 240px 80px 860px 100px;
+  grid-template-columns: 140px 50px 1fr;
   grid-template-areas:
-    "症候群 名稱 最大等級 資訊列 參照"
-    "效果 效果 效果 效果 參照";
+    "名稱 最大等級 資訊列"
+    "效果 效果 效果";
   border: solid #aaa;
   border-width: 1px 0 0 1px;
-  width: max-content;
   background: #fafafa;
+  font-size: 14px;
 }
-.症候群 { grid-area: 症候群; }
-.名稱 { grid-area: 名稱; }
-.最大等級 { grid-area: 最大等級; }
-.資訊列 { grid-area: 資訊列; }
-.效果 { grid-area: 效果; }
-.參照 { grid-area: 參照; }
-.症候群, .名稱 {
+#列表區 .名稱 { grid-area: 名稱; }
+#列表區 .最大等級 { grid-area: 最大等級; cursor: pointer; }
+#列表區 .資訊列 { grid-area: 資訊列; }
+#列表區 .效果 { grid-area: 效果; }
+#列表區 .名稱 {
   font-weight: bold;
   color: #062a7d;
 }
-.欄位名稱 {
+#列表區 .欄位名稱 {
   position: sticky;
   top: 0;
   z-index: 1;
   background: #cadafe;
 }
-.資料:nth-child(even) {
+#列表區 .資料:nth-child(even) {
   background: #e8effb;
 }
-.資料 > div, .欄位名稱 > div {
+#列表區 .資料 > div, #列表區 .欄位名稱 > div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,29 +67,94 @@ body {
   border-width: 0 1px 1px 0;
   padding: 2px 4px;
 }
-.資料 .名稱, .資料 .症候群 {
+#列表區 .資料 .名稱 {
   text-align: center;
   flex-wrap: wrap;
 }
-.資料 .副類別, .資料 .日文 {
+#列表區 .資料 .日文 {
   font-size: 12px;
   opacity: .4;
 }
+#列表區:not(.日文顯示) .資料 .日文 {
+  display: none;
+}
 .資料 .效果 {
+  display: none;
+}
+#列表區.效果顯示 .資料 .效果, .資料:hover .效果 {
   display: block;
 }
-.資料 .資訊列 {
+#列表區 .資料 .資訊列 {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 8px 12px;
+  gap: 4px;
   padding: 4px;
 }
-.資料 .資訊列 span {
+#列表區 .資料 .資訊列 > span {
   background: #ffffff;
   color: #1c2238;
   border-radius: 4px;
-  padding: 0 4px;
-  line-height: 21px;
-  font-size: 14px;
+  padding: 0 2px;
+  line-height: 19px;
+  font-size: 12px;
+}
+#列表區 .資料 .症候群 {
+  background: #97afe5;
+  color: #fff;
+}
+#列表區 .資料 .副類別:before {
+  content: "-";
+}
+#列表區 .資料 .副類別:empty {
+  display: none;
+}
+
+
+
+#選擇區 {
+  grid-area: 選擇區;
+  height: max-content;
+  overflow: auto;
+  font-size: 12px;
+  border-collapse: collapse;
+  text-align: center;
+}
+#選擇區 tbody {
+  border-bottom: 2px solid #aaa;
+  background: #fafafa;
+}
+#選擇區 .欄位名稱 {
+  border-top: 2px solid #aaa;
+  background: #cadafe;
+}
+#選擇區 .資料:nth-child(even) {
+  background: #e8effb;
+}
+#選擇區 td {
+  border: 1px solid #aaa;
+  line-height: 22px;
+}
+#選擇區 .資料:not(:hover) tr:has(.內文) {
+  display: none;
+}
+#選擇區 .內文 {
+  text-align: left;
+}
+#選擇區 input {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  min-width: unset;
+  width: 32px;
+  height: 20px;
+  text-align: center;
+}
+#選擇區 textarea {
+  all: unset;
+  display: block;
+  width: 100%;
+  height: 66px;
 }
