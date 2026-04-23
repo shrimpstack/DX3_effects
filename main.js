@@ -65,7 +65,8 @@ function 重新列出選擇的技能() {
 function 經驗重新顯示() {
   let 經驗值 = 0;
   目前選擇技能.forEach(技能json => {
-    經驗值 += 技能json.等級 * 5 + 10 + 技能json.經驗修正;
+    if(技能json.種別 == "auto") return;
+    經驗值 += +技能json.等級 * 5 + 10 + +技能json.經驗修正;
   });
   目前經驗值.value = 經驗值;
 }
