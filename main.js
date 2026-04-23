@@ -17,8 +17,10 @@ function 日文顯示切換() {
 }
 
 function 加到已選技能(row, show_data, el_data) {
-  let 種別 = show_data.副類別.replace(/\n/g, " ");
-  if(種別 == "自動取得") 種別 = "auto";
+  let 種別 = "";
+  if(row.異能類型 == "自動取得") 種別 = "auto";
+  else if(row.異能類型 == "簡易") 種別 = "easy";
+  else if(row.異能類型 == "D露易絲") 種別 = "dlois";
   let 技能json = {
     名稱: show_data.中文,
     等級: 1,
